@@ -8,8 +8,10 @@ import java.util.*;
 public class PlayingBoard {
     List<List<PositionOnBoard>> board = new ArrayList<List<PositionOnBoard>>();
     String newLine = System.getProperty("line.separator");
+    List<Vehicle> vehiclesOnBoard = new ArrayList<Vehicle>();
+    String player;
 
-    PlayingBoard() {
+    PlayingBoard(String player) {
         for (char i = 'A'; i <= 'J'; i++) {
             List<PositionOnBoard> row = new ArrayList<>();
             for (int c = 0; c < 10; c++) {
@@ -18,7 +20,7 @@ public class PlayingBoard {
             }
             board.add(row);
         }
-
+        this.player = player;
     }
 
     public void printBoard() {
@@ -27,7 +29,7 @@ public class PlayingBoard {
         for (List<PositionOnBoard> e : this.board) {
             System.out.print(rowCounter);
             for (PositionOnBoard pB : e) {
-                System.out.print(pB.value + " ");
+                System.out.print(" "+pB.value );
             }
             System.out.print(newLine);
             rowCounter++;
@@ -68,10 +70,12 @@ public class PlayingBoard {
                     }
                 }
             }
+            vehiclesOnBoard.add(vIn);
 
         } catch (IndexOutOfBoundsException e) {
 
         }
+
         return setPosition;
     }
 
@@ -148,6 +152,29 @@ public class PlayingBoard {
                 returnVal = board.get(counter).get(x-1);
             }
             counter += 1;
+        }
+        return returnVal;
+    }
+
+    public void printFogOfWarBoard() {
+        System.out.println(" 1 2 3 4 5 6 7 8 9 10");
+        char rowCounter = 'A';
+        for (List<PositionOnBoard> e : this.board) {
+            System.out.print(rowCounter);
+            for (PositionOnBoard pB : e) {
+                System.out.print(" "+pB.fogOfWarValue );
+            }
+            System.out.print(newLine);
+            rowCounter++;
+        }
+
+    }
+
+    public boolean checkIfVehicleLeft(){
+        boolean returnVal = false;
+        for (Vehicle v: vehiclesOnBoard
+             ) {
+            if(v.destroyed==false) returnVal = true;
         }
         return returnVal;
     }

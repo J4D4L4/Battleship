@@ -14,18 +14,33 @@ enum Ship{
         this.name = name;
     }
 }
+
+enum HitStatus {
+    HIT("hit", "X"),
+    MISS("miss","M"),
+    DESTROYED("destroyed","--");
+    String name;
+    String marker;
+
+    HitStatus(String name, String marker){
+        this.name=name;
+        this.marker=marker;
+    }
+}
 public class Vehicle {
     String start;
     String end;
     Ship type;
     int hits;
     int length;
+    boolean destroyed;
 
     Vehicle(String start, String end, Ship type){
         this.start = start;
         this.end = end;
         this.type = type;
         this.length = lengthOfShip(start,end);
+        this.destroyed = false;
 
     }
 
@@ -49,6 +64,15 @@ public class Vehicle {
         }
         else length = -1;
         return length;
+    }
+    public HitStatus hitVehicle(){
+        this.hits +=1;
+        HitStatus returnStr = HitStatus.HIT;
+        if(this.hits>=this.length){
+            this.destroyed=true;
+            returnStr = HitStatus.DESTROYED;
+        }
+        return returnStr;
     }
 
 }
